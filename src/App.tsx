@@ -1,77 +1,32 @@
-import { CSSProperties, useState } from 'react';
-import Header from './components/Header';
-import ProdutcComp from './components/ProdutcComp';
-import Ex1 from './exercicios/Ex1';
-import { clientes, produtos, produtosComponentes } from './constantes';
-import Produto from './exercicios/arrays';
+import { useState } from 'react';
+import { Produto } from './models/produtos';
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [data, setData] = useState<Produto | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const clientDiv: CSSProperties = {
-    display: 'flex',
-    margin: ' 2rem auto',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: '2rem',
+  const handleClick = (type: string) => {
+    setLoading(true);
+
+    getData(type).then(res => {
+      setData(new Produto(res));
+      setLoading(false);
+    });
   };
 
-  const { pathname } = window.location;
-
-  if (pathname === '/exercicios') {
-    return (
-      <>
-        <Header />
-        <main>
-          <section>
-            <h2>Cliente - Ex1</h2>
-
-            <div style={clientDiv}>
-              {clientes.map((cliente, index) => (
-                <Ex1 {...cliente} key={index} />
-              ))}
-            </div>
-          </section>
-          <section>
-            <h2>Produtos - Ex2 - Arrays</h2>
-
-            <div style={clientDiv}>
-              {produtos
-                .filter(({ preco }) => Number(preco.replace('R$ ', '')) > 1500)
-                .map((produto, index) => (
-                  <Produto {...produto} key={`${index}-${produto.id}`} />
-                ))}
-            </div>
-          </section>
-        </main>
-      </>
-    );
-  }
-
-  if (pathname === '/produtos') {
-    return (
-      <>
-        <Header />
-        <main>
-          {produtosComponentes.map((pp, index) => (
-            <ProdutcComp key={`${index}-${pp.nome}`} {...pp} />
-          ))}
-        </main>
-      </>
-    );
-  }
+  const getData = async (url: string): Promise<Produto> => {
+    const res = await fetch(`https://ranekapi.origamid.dev/json/api/produto/${url}`);
+    return res.json();
+  };
 
   return (
-    <>
-      <Header />
-      <main>
-        <h1>content</h1>
-        <button onClick={() => setCount(count + 1)}>Count é: {count}</button>
+    <div>
+      <button onClick={() => handleClick('smartphone')}>Smartphone</button>
+      <button onClick={() => handleClick('tablet')}>Tablet</button>
+      <button onClick={() => handleClick('notebook')}>Notebook</button>
 
-        <hr />
-      </main>
-    </>
+      {loading && <div>Carregando...</div>}
+    </div>
   );
 }
 
