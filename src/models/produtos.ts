@@ -9,7 +9,7 @@ export class Produto {
   nome: string;
   preco: string;
   descricao: string;
-  vendido: boolean;
+  vendido: string;
   usuario_id: string;
 
   constructor(
@@ -19,7 +19,7 @@ export class Produto {
       nome: '',
       preco: '',
       descricao: '',
-      vendido: false,
+      vendido: '',
       usuario_id: '',
     }
   ) {
@@ -30,17 +30,5 @@ export class Produto {
     this.descricao = data.descricao;
     this.vendido = data.vendido;
     this.usuario_id = data.usuario_id;
-  }
-
-  serialize() {
-    return {
-      id: this.id,
-      fotos: this.fotos,
-      nome: this.nome,
-      preco: this.preco,
-      descricao: this.descricao,
-      vendido: this.vendido,
-      usuario_id: this.usuario_id,
-    };
   }
 }

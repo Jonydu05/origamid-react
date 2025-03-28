@@ -1,15 +1,21 @@
 import { useState } from 'react';
 import { Produto } from './models/produtos';
+import ProdutoComponent from './Produto';
+import './styles/styles.scss';
+import './assets/fonts/IBMPlexSans-Regular.woff2';
+import './assets/fonts/InterTight-Regular.woff2';
+import styles from './styles/app.module.scss';
 
 function App() {
-  const [data, setData] = useState<Produto | null>(null);
+  const [produtos, setProdutos] = useState<Produto[]>([]);
   const [loading, setLoading] = useState(false);
 
   const handleClick = (type: string) => {
-    setLoading(true);
+    if (produtos.some(prod => prod.id === type)) return;
 
+    setLoading(true);
     getData(type).then(res => {
-      setData(new Produto(res));
+      setProdutos(prev => [...prev, res]);
       setLoading(false);
     });
   };
@@ -20,13 +26,20 @@ function App() {
   };
 
   return (
-    <div>
-      <button onClick={() => handleClick('smartphone')}>Smartphone</button>
-      <button onClick={() => handleClick('tablet')}>Tablet</button>
-      <button onClick={() => handleClick('notebook')}>Notebook</button>
+    <main className={styles.main}>
+      <section aria-label='Botões'>
+        <button onClick={() => handleClick('smartphone')}>Smartphone</button>
+        <button onClick={() => handleClick('tablet')}>Tablet</button>
+        <button onClick={() => handleClick('notebook')}>Notebook</button>
+      </section>
 
       {loading && <div>Carregando...</div>}
-    </div>
+      <section className={styles.produtos} aria-label='Produtos'>
+        {produtos.map(produto => (
+          <ProdutoComponent key={produto.id} {...produto} />
+        ))}
+      </section>
+    </main>
   );
 }
 
