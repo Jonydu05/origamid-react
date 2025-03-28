@@ -7,17 +7,16 @@ import styles from './styles/app.module.scss';
 import './styles/styles.scss';
 
 function App() {
-  const [produtos, setProdutos] = useState<Produto[]>(() => {
-    return JSON.parse(localStorage.getItem('produtos') || '') || [];
+  const [produto, setProduto] = useState<Produto | null>(() => {
+    return JSON.parse(localStorage.getItem('produto') || '{}') || null;
   });
   const [loading, setLoading] = useState(false);
 
   const handleClick = (type: string) => {
-    if (produtos.some(prod => prod.id === type)) return;
-
     setLoading(true);
+
     getData(type).then(res => {
-      setProdutos(prev => [...prev, res]);
+      setProduto(res);
       setLoading(false);
     });
   };
@@ -28,11 +27,12 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem('produtos', JSON.stringify(produtos));
-  }, [produtos]);
+    localStorage.setItem('produto', JSON.stringify(produto));
+  }, [produto]);
 
   return (
     <main className={styles.main}>
+      <h2>Preferência:</h2>
       <section aria-label='Botões'>
         <button onClick={() => handleClick('smartphone')}>Smartphone</button>
         <button onClick={() => handleClick('tablet')}>Tablet</button>
@@ -41,9 +41,7 @@ function App() {
 
       {loading && <div>Carregando...</div>}
       <section className={styles.produtos} aria-label='Produtos'>
-        {produtos.map(produto => (
-          <ProdutoComponent key={produto.id} data={{ ...produto }} setProdutos={setProdutos} />
-        ))}
+        {produto && <ProdutoComponent key={produto.id} {...produto} />}
       </section>
     </main>
   );
