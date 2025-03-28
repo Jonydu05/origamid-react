@@ -1,6 +1,8 @@
 import { Produto } from './models/produtos';
 import styles from './styles/produto.module.scss';
 
+const teste = 'teste';
+
 function ProdutoComponent({ descricao, fotos, nome, preco, vendido }: Produto) {
   return (
     <article aria-label={nome} className={styles.produto}>
