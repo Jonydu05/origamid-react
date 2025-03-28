@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { Produto } from './models/produtos';
-import ProdutoComponent from './Produto';
-import './styles/styles.scss';
+import { useEffect, useState } from 'react';
 import './assets/fonts/IBMPlexSans-Regular.woff2';
 import './assets/fonts/InterTight-Regular.woff2';
+import { Produto } from './models/produtos';
+import ProdutoComponent from './Produto';
 import styles from './styles/app.module.scss';
+import './styles/styles.scss';
 
 function App() {
-  const [produtos, setProdutos] = useState<Produto[]>([]);
+  const [produtos, setProdutos] = useState<Produto[]>(() => {
+    return JSON.parse(localStorage.getItem('produtos') || '') || [];
+  });
   const [loading, setLoading] = useState(false);
 
   const handleClick = (type: string) => {
@@ -25,6 +27,10 @@ function App() {
     return res.json();
   };
 
+  useEffect(() => {
+    localStorage.setItem('produtos', JSON.stringify(produtos));
+  }, [produtos]);
+
   return (
     <main className={styles.main}>
       <section aria-label='Botões'>
@@ -36,7 +42,7 @@ function App() {
       {loading && <div>Carregando...</div>}
       <section className={styles.produtos} aria-label='Produtos'>
         {produtos.map(produto => (
-          <ProdutoComponent key={produto.id} {...produto} />
+          <ProdutoComponent key={produto.id} data={{ ...produto }} setProdutos={setProdutos} />
         ))}
       </section>
     </main>

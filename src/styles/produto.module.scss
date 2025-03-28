@@ -19,18 +19,6 @@
     padding: 12px;
   }
 
-  header span {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 8px 12px;
-    border-radius: 50%;
-    margin-left: auto;
-    font: 500 14px / 20px var(--font-sans-serif);
-    color: color-mix(in srgb, var(--color-primary) 10%, white);
-    background: color-mix(in srgb, green 80%, white);
-  }
-
   header div {
     display: flex;
     gap: 8px;
@@ -67,4 +55,11 @@
     object-position: center;
     max-height: 500px;
   }
+}
+
+.icon {
+  margin-left: auto;
+  font-variant: small-caps;
+  font-family: Inter;
+  font-size: 14px;
 }

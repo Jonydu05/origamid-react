@@ -1,7 +1,21 @@
+import { X } from '@phosphor-icons/react';
+import { Dispatch } from 'react';
 import { Produto } from './models/produtos';
 import styles from './styles/produto.module.scss';
+import { SetStateAction } from 'react';
 
-function ProdutoComponent({ descricao, fotos, nome, preco, vendido }: Produto) {
+type ProdutosComponentsProps = {
+  data: Produto;
+  setProdutos: Dispatch<SetStateAction<Produto[]>>;
+};
+
+function ProdutoComponent({ data, setProdutos }: ProdutosComponentsProps) {
+  const { nome, preco, vendido, fotos, descricao, id } = data;
+
+  const handleClick = () => {
+    setProdutos(prev => prev.filter(produto => produto.id !== id));
+  };
+
   return (
     <article aria-label={nome} className={styles.produto}>
       <header>
@@ -9,6 +23,7 @@ function ProdutoComponent({ descricao, fotos, nome, preco, vendido }: Produto) {
         <h5>
           R$ {preco} - {vendido == 'false' ? 'Não vendido' : 'Vendido'}
         </h5>
+        <X onClick={handleClick} style={{ marginLeft: 'auto', cursor: 'pointer' }} />
       </header>
       <div>
         {fotos.map(foto => (
