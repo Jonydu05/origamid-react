@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { MouseEvent, useEffect, useState } from 'react';
 import './assets/fonts/IBMPlexSans-Regular.woff2';
 import './assets/fonts/InterTight-Regular.woff2';
 import { Produto } from './models/produtos';
@@ -7,15 +7,15 @@ import styles from './styles/app.module.scss';
 import './styles/styles.scss';
 
 function App() {
-  const [produto, setProduto] = useState<Produto | null>(() => {
-    return JSON.parse(localStorage.getItem('produto') || '{}') || null;
-  });
+  const [produto, setProduto] = useState<Produto | null>(null);
   const [loading, setLoading] = useState(false);
 
-  const handleClick = (type: string) => {
+  const handleClick = (ev: MouseEvent) => {
     setLoading(true);
 
-    getData(type).then(res => {
+    const target = ev.target as HTMLElement;
+
+    getData(target.innerText.toLowerCase()).then(res => {
       setProduto(res);
       setLoading(false);
     });
@@ -27,16 +27,23 @@ function App() {
   };
 
   useEffect(() => {
-    localStorage.setItem('produto', JSON.stringify(produto));
+    const produto = localStorage.getItem('produto') || '';
+    setProduto(produto ? JSON.parse(produto) : false);
+  }, []);
+
+  useEffect(() => {
+    if (produto) {
+      localStorage.setItem('produto', JSON.stringify(produto));
+    }
   }, [produto]);
 
   return (
     <main className={styles.main}>
       <h2>Preferência:</h2>
       <section aria-label='Botões'>
-        <button onClick={() => handleClick('smartphone')}>Smartphone</button>
-        <button onClick={() => handleClick('tablet')}>Tablet</button>
-        <button onClick={() => handleClick('notebook')}>Notebook</button>
+        <button onClick={handleClick}>Smartphone</button>
+        <button onClick={handleClick}>Tablet</button>
+        <button onClick={handleClick}>Notebook</button>
       </section>
 
       {loading && <div>Carregando...</div>}
