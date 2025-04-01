@@ -1,7 +1,12 @@
+import { X } from '@phosphor-icons/react';
+import React from 'react';
 import { Produto } from './models/produtos';
 import styles from './styles/produto.module.scss';
+import { GlobalContext } from './globalProvider';
 
 function ProdutoComponent(data: Produto) {
+  const context = React.useContext(GlobalContext);
+
   const { nome, preco, vendido, fotos, descricao } = data;
 
   return (
@@ -11,6 +16,11 @@ function ProdutoComponent(data: Produto) {
         <h5>
           R$ {preco} - {vendido == 'false' ? 'Não vendido' : 'Vendido'}
         </h5>
+        <X
+          size={16}
+          style={{ marginLeft: 'auto', cursor: 'pointer' }}
+          onClick={() => context?.removerProduto(data.id)}
+        />
       </header>
       <div>
         {fotos.map(foto => (

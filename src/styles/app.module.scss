@@ -2,6 +2,9 @@
   display: grid;
   place-items: center;
   gap: 8px;
+  transition: all 0.5s cubic-bezier(0.39, 0.575, 0.565, 1);
+  min-height: 100vh;
+  --shadow: rgba(0 0 0 / 0.2);
 
   section {
     display: flex;
@@ -29,15 +32,38 @@
     border: none;
     cursor: pointer;
     font: 500 16px / 24px var(--font-sans-serif);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 16px 32px color-mix(in srgb, var(--color-primary) 50%, transparent);
     transition: all 0.3s cubic-bezier(0.445, 0.05, 0.55, 0.95);
+    margin: 32px 0;
 
     &:hover {
-      box-shadow: none;
+      box-shadow: 0 12px 24px color-mix(in srgb, var(--color-primary) 50%, transparent);
+    }
+
+    &:active {
+      box-shadow:
+        0 12px 24px color-mix(in srgb, var(--color-primary) 50%, transparent),
+        inset 0 2px 4px var(--shadow);
     }
   }
 
   h2 {
     font-weight: 500;
+  }
+
+  &.light {
+    background: #fafafa;
+    color: #1e1e1e;
+  }
+
+  &.dark {
+    background: #1e1e1e;
+    color: #fafafa;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 16px;
+    align-items: center;
   }
 }

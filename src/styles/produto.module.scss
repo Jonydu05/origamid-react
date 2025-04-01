@@ -7,6 +7,7 @@
   border: 2px solid var(--color-primary);
   background: color-mix(in srgb, var(--color-primary) 5%, white);
   overflow: hidden;
+  color: #0e0e0e;
 
   header {
     display: flex;
@@ -55,11 +56,4 @@
     object-position: center;
     max-height: 500px;
   }
-}
-
-.icon {
-  margin-left: auto;
-  font-variant: small-caps;
-  font-family: Inter;
-  font-size: 14px;
 }
