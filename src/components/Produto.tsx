@@ -1,8 +1,8 @@
 import { X } from '@phosphor-icons/react';
 import React from 'react';
-import { Produto } from './models/produtos';
-import styles from './styles/produto.module.scss';
-import { GlobalContext } from './globalProvider';
+import { Produto } from '../models/produtos';
+import styles from '../styles/produto.module.scss';
+import { GlobalContext } from '../ts/globalProvider';
 
 function ProdutoComponent(data: Produto) {
   const context = React.useContext(GlobalContext);

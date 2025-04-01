@@ -1,5 +1,5 @@
 import React from 'react';
-import { GlobalContext } from './globalProvider';
+import { GlobalContext } from '../ts/globalProvider';
 
 function ThemeChanger() {
   const context = React.useContext(GlobalContext);

@@ -3,9 +3,9 @@ import './assets/fonts/IBMPlexSans-Regular.woff2';
 import './assets/fonts/InterTight-Regular.woff2';
 import styles from './styles/app.module.scss';
 import './styles/styles.scss';
-import { GlobalContext } from './globalProvider';
-import ThemeChanger from './ThemeChanger';
-import ProdutoComponent from './Produto';
+import { GlobalContext } from './ts/globalProvider';
+import ThemeChanger from './components/ThemeChanger';
+import ProdutoComponent from './components/Produto';
 
 function App() {
   const context = React.useContext(GlobalContext);

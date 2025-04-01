@@ -1,5 +1,5 @@
 import React from 'react';
-import { Produto } from './models/produtos';
+import { Produto } from '../models/produtos';
 
 type ITema = 'light' | 'dark';
 
